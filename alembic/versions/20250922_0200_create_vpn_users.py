@@ -11,7 +11,7 @@ def upgrade() -> None:
     op.execute("""
         CREATE TABLE vpn_users (
             id BIGSERIAL PRIMARY KEY,
-            telegram_id BIGINT NOT NULL UNIQUE,
+            user_id BIGINT NOT NULL UNIQUE,
             username TEXT,
             full_name TEXT,
             public_key TEXT NOT NULL,
