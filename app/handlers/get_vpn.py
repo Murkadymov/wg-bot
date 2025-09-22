@@ -76,7 +76,7 @@ async def _issue_vpn_for(user: types.User, reply_to: types.Message):
 
 # --- Хендлеры ---
 
-@router.message(F.text == "/getvpn")
+@router.message(F.text.in_(["/getvpn", "Получить VPN"]))
 async def get_vpn_cmd(message: types.Message):
     await _issue_vpn_for(message.from_user, message)
 
