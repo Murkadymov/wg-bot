@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  bot:
+    build: .
+    container_name: wg-bot
+    restart: unless-stopped
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+    volumes:
+      - /etc/wireguard:/etc/wireguard   # доступ к wg0.conf и clients/
+    network_mode: "host"                # нужно, чтобы subprocess видел wg
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: wg-bot-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: wg_user
+      POSTGRES_PASSWORD: TQeKg4qHQ2CWOjKnlVXMwe/H5bBK811BfjcpEx1o
+      POSTGRES_DB: wg_db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

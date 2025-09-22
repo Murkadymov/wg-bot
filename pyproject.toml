@@ -1,0 +1,19 @@
+[project]
+name = "wg-bot"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "kadymov.murad",email = "kadymov.murad@wildberries.work"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiogram (>=3.22.0,<4.0.0)",
+    "pydantic (>=2.11.9,<3.0.0)",
+    "pydantic-settings (>=2.10.1,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
