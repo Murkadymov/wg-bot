@@ -4,7 +4,7 @@ from app.logger.setup_logger import setup_logging
 from aiogram import Bot
 
 from app.bot import dp, bot, set_commands
-from app.handlers import welcome_handler, instruction_handler, get_vpn
+from app.handlers import welcome_handler, instruction_handler, get_vpn, help_handler
 from app.handlers import menu_handler
 
 import asyncio
@@ -22,7 +22,12 @@ async def main():
    get_vpn.router.message.middleware(CheckUserMiddleware())
    get_vpn.router.callback_query.middleware(CheckUserMiddleware())
 
-   dp.include_routers(welcome_handler.router, menu_handler.router, get_vpn.router, instruction_handler.router)
+   dp.include_routers(welcome_handler.router,
+                      menu_handler.router,
+                      get_vpn.router,
+                      instruction_handler.router,
+                      help_handler.router,
+                      )
 
    try:
        logger.info("starting bot")
