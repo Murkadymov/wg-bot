@@ -6,7 +6,7 @@ router = Router()
 
 MENU_TRIGGERS = {"меню", "/menu"}
 
-@router.message(F.text.func(lambda t: (t or "").strip().lower() in MENU_TRIGGERS) # ещё поправил фильтр
+@router.message(F.text.func(lambda t: (t or "").strip().lower() in MENU_TRIGGERS)) # ещё поправил фильтр
 async def menu(message: types.Message):
     kb = menu_buttons()
 
