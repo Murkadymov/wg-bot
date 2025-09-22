@@ -9,12 +9,17 @@ from app.handlers import menu_handler
 
 import asyncio
 
+from app.middlewares.check_user import CheckUserMiddleware
+
+
 async def main():
    setup_logging()
 
    logger = logging.getLogger()
 
    await set_commands(bot)
+
+   get_vpn.router.message.middleware(CheckUserMiddleware())
 
    dp.include_routers(welcome_handler.router, menu_handler.router, get_vpn.router, instruction_handler.router)
 

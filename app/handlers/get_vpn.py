@@ -1,11 +1,13 @@
 import subprocess
 from aiogram import Router, types
 from aiogram.types import FSInputFile
+from sqlalchemy.exc import DatabaseError
 
 from app.filters.get_vpn_filter import VPNRequestFilter
 from app.keyboards.menu_buttons import menu_buttons
 from app.logger.setup_logger import get_logger
 from app.models.user import UserModel
+from app.repository.users import UserRepository
 from app.vpnmanager.generate_client import generate_client_conf, add_peer, add_peer_persistent
 from app.vpnmanager.keys import generate_private_key, generate_public_key
 from app.vpnmanager.parser import get_next_free_ip
@@ -55,8 +57,22 @@ async def get_vpn(message: types.Message):
     # правильная передача файла
     conf_file = FSInputFile(conf_path)
 
+    try:
+        UserRepository.add_user(
+            user_id=user.id,
+            username=user.username,
+            full_name=user.full_name,
+            public_key=public_key,
+            ip_address=free_ip,
+        )
+    except Exception as e:
+        logger.exception(f"Ошибка при добавлении пользователя {user.id} в базу")
+        raise DatabaseError("Не удалось сохранить пользователя в БД") from e
+
     await message.answer_document(
         document=conf_file,
         caption="Вот твой VPN-конфиг 🚀\nИмпортируй его в приложение WireGuard",
         reply_markup=kb,
     )
+
+
