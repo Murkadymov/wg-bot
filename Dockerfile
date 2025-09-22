@@ -4,7 +4,7 @@ FROM python:3.13-slim AS builder
 WORKDIR /app
 
 # Устанавливаем Poetry
-RUN pip install poetry
+RUN pip install "poetry==1.8.3"
 
 # Копируем только файлы зависимостей
 COPY pyproject.toml poetry.lock ./
