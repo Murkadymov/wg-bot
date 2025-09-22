@@ -4,7 +4,7 @@ from app.logger.setup_logger import setup_logging
 from aiogram import Bot
 
 from app.bot import dp, bot, set_commands
-from app.handlers import welcome_handler, get_vpn, instruction_handler
+from app.handlers import welcome_handler, instruction_handler, get_vpn
 from app.handlers import menu_handler
 
 import asyncio

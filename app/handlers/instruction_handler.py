@@ -2,7 +2,6 @@ from aiogram import Router, types, F
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 from app.filters.instruction_filter import InstructionFilter
-from app.handlers.get_vpn import get_vpn
 
 router = Router()
 
@@ -35,7 +34,3 @@ async def instruction(message: types.Message):
         reply_markup=kb
     )
 
-@router.callback_query(F.data == "getvpn")
-async def handle_getvpn_callback(callback: types.CallbackQuery):
-    await get_vpn(callback.message)
-    await callback.answer()
