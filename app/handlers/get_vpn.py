@@ -11,7 +11,7 @@ from app.vpnmanager.generate_client import generate_client_conf, add_peer_persis
 from app.vpnmanager.keys import generate_private_key, generate_public_key
 from app.vpnmanager.parser import get_next_free_ip
 
-VPN_TRIGGERS = {"/getvpn", "Получить VPN"}
+VPN_TRIGGERS = {"/getvpn", "получить впн", "getvpn"}
 
 logger = get_logger(__name__)
 router = Router()
@@ -78,7 +78,7 @@ async def _issue_vpn_for(user: types.User, reply_to: types.Message):
 
 # --- Хендлеры ---
 
-@router.message(F.text.func(lambda t: (t or "").strip() in VPN_TRIGGERS))
+@router.message(F.text.func(lambda t: (t or "").strip().lower() in VPN_TRIGGERS))
 async def get_vpn_cmd(message: types.Message):
     await _issue_vpn_for(message.from_user, message)
 
