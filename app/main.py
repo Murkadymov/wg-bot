@@ -20,6 +20,7 @@ async def main():
    await set_commands(bot)
 
    get_vpn.router.message.middleware(CheckUserMiddleware())
+   get_vpn.router.callback_query.middleware(CheckUserMiddleware())
 
    dp.include_routers(welcome_handler.router, menu_handler.router, get_vpn.router, instruction_handler.router)
 
