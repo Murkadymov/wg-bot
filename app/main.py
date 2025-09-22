@@ -2,13 +2,12 @@ import logging
 from app.logger.setup_logger import setup_logging
 
 from aiogram import Bot
+
 from app.bot import dp, bot, set_commands
-from app.handlers import welcome_handler, get_vpn
+from app.handlers import welcome_handler, get_vpn, instruction_handler
 from app.handlers import menu_handler
 
 import asyncio
-
-
 
 async def main():
    setup_logging()
@@ -17,7 +16,7 @@ async def main():
 
    await set_commands(bot)
 
-   dp.include_routers(welcome_handler.router, menu_handler.router, get_vpn.router)
+   dp.include_routers(welcome_handler.router, menu_handler.router, get_vpn.router, instruction_handler.router)
 
    try:
        logger.info("starting bot")
@@ -30,11 +29,7 @@ async def main():
           await bot.session.close()
 
 
-
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     asyncio.run(main())
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+

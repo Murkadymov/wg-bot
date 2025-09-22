@@ -16,7 +16,7 @@ async def set_commands(bot: Bot):
     await bot.set_my_commands(commands, scope=BotCommandScopeAllPrivateChats())
 
 token = Settings().bot_token.get_secret_value()
-print(f"Bot token: {token}")
+
 bot = Bot(token=str(token))
 
 dp = Dispatcher()
