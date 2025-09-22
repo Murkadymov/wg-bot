@@ -1,6 +1,7 @@
 import subprocess
-import os
 from aiogram import Router, types
+from aiogram.types import FSInputFile
+
 from app.filters.get_vpn_filter import VPNRequestFilter
 from app.keyboards.menu_buttons import menu_buttons
 from app.logger.setup_logger import get_logger
@@ -25,10 +26,9 @@ async def get_vpn(message: types.Message):
 
     private_key = generate_private_key()
     public_key = generate_public_key(private_key)
-
     free_ip = get_next_free_ip()
 
-
+    # генерируем client.conf
     try:
         conf_path = generate_client_conf(user.id, private_key, free_ip)
     except OSError as e:
@@ -40,20 +40,23 @@ async def get_vpn(message: types.Message):
         await message.answer("Произошла ошибка при выдаче ВПН, попробуйте позже 🙏")
         return
 
-
+    # добавляем peer в wg0
     try:
         add_peer(public_key, free_ip)
-    except subprocess.CalledProcessError as e:
+    except subprocess.CalledProcessError:
         logger.exception(f"Команда wg завершилась с ошибкой для user_id={user.id}")
         await message.answer("Ошибка при добавлении VPN-пользователя на сервер 🙏")
         return
-    except Exception as e:
+    except Exception:
         logger.exception(f"Неизвестная ошибка при добавлении peer для user_id={user.id}")
         await message.answer("Произошла ошибка при настройке VPN, попробуйте позже 🙏")
         return
 
+    # правильная передача файла
+    conf_file = FSInputFile(conf_path)
+
     await message.answer_document(
-        document=str(conf_path),
+        document=conf_file,
         caption="Вот твой VPN-конфиг 🚀\nИмпортируй его в приложение WireGuard",
-        reply_markup=kb
+        reply_markup=kb,
     )
