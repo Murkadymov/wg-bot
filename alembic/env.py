@@ -14,7 +14,6 @@ load_dotenv(".env")
 config = context.config
 fileConfig(config.config_file_name)
 
-# Собираем DSN для PostgreSQL
 user = os.getenv("POSTGRES_USER", "wg_user")
 password = quote_plus(os.getenv("POSTGRES_PASSWORD", ""))
 host = os.getenv("POSTGRES_HOST", "127.0.0.1")
