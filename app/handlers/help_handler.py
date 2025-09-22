@@ -2,7 +2,7 @@ from aiogram import Router, types, F
 
 router = Router()
 
-@router.message(F.text == "/help")
+@router.message(F.text.in_(["Помощь", "/help", "Помощь"]))
 async def help(message: types.Message):
     await message.answer(
         """🆘 Помощь:

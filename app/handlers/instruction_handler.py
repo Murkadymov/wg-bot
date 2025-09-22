@@ -1,11 +1,9 @@
 from aiogram import Router, types, F
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from app.filters.instruction_filter import InstructionFilter
-
 router = Router()
 
-@router.message(InstructionFilter())
+@router.message(F.text.in_(["/instruction", "инструкция", "Инструкция"]))
 async def instruction(message: types.Message):
     kb = InlineKeyboardMarkup(
         inline_keyboard=[
