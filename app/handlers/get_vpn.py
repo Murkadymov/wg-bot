@@ -6,7 +6,7 @@ from app.filters.get_vpn_filter import VPNRequestFilter
 from app.keyboards.menu_buttons import menu_buttons
 from app.logger.setup_logger import get_logger
 from app.models.user import UserModel
-from app.vpnmanager.generate_client import generate_client_conf, add_peer
+from app.vpnmanager.generate_client import generate_client_conf, add_peer, add_peer_persistent
 from app.vpnmanager.keys import generate_private_key, generate_public_key
 from app.vpnmanager.parser import get_next_free_ip
 
@@ -42,7 +42,7 @@ async def get_vpn(message: types.Message):
 
     # добавляем peer в wg0
     try:
-        add_peer(public_key, free_ip)
+        add_peer_persistent(public_key, free_ip)
     except subprocess.CalledProcessError:
         logger.exception(f"Команда wg завершилась с ошибкой для user_id={user.id}")
         await message.answer("Ошибка при добавлении VPN-пользователя на сервер 🙏")
